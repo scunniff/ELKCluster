@@ -1,0 +1,11 @@
+filebeat:
+  prospectors:
+    -
+      paths:
+        - /var/log/*.log 
+      fields:
+        type: syslog
+output:
+  logstash:
+    enabled: true
+    hosts: ["http://localhost:5043"]

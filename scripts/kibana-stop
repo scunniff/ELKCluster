@@ -1,0 +1,11 @@
+#!/bin/bash
+
+INSTANCE=$(screen -li | grep kibana | sed 's/\s/ /g')
+
+if [ -n "$INSTANCE" ]
+then
+    screen -X -S kibana quit
+    echo "Killed $INSTANCE"
+else
+    echo "No running instance"
+fi

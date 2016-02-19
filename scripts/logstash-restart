@@ -1,0 +1,4 @@
+#!/bin/bash
+
+logstash-stop
+logstash-start

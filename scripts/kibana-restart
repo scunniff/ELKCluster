@@ -1,0 +1,4 @@
+#!/bin/bash
+
+kibana-stop
+kibana-start

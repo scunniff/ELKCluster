@@ -1,0 +1,41 @@
+input { 
+  tcp {
+    port => 5514
+    type => syslog
+  }
+  udp {
+    port => 5514
+    type => syslog
+  }
+  twitter {
+    consumer_key => "CNEzIFr6zapFGPxHfPB8bTqcn"
+    consumer_secret => "Sg1fQljqOsqOc0ZgXE7DDqt88eN6DfG9nu9QWlZPThBtqIhJEZ"
+    keywords => "test"
+    oauth_token => "700459000890953728-QBQZmtkQK8ZVAtN5f6Kzv6VPWq5ViII"
+    oauth_token_secret => "NAl8X1merQNXYNVVVWHi2AU7tH1syTfi3a7mDJgFCZNRE"
+  }
+  beats {
+    port => 5043
+  }
+}
+
+filter {
+  if [type] == "syslog" {
+    grok {
+      match => { "message" => "%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" }
+      add_field => [ "received_at", "%{@timestamp}" ]
+      add_field => [ "received_from", "%{host}" ]
+    }
+    syslog_pri { }
+    date {
+      match => [ "syslog_timestamp", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+    }
+  }
+}
+
+output {
+    elasticsearch {
+        hosts => [ "<%= @node01_ip.strip %>:9200" ]
+        sniffing => true
+    }
+}

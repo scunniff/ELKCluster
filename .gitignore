@@ -1,0 +1,5 @@
+.vagrant/
+logs/
+data/
+*.rpm
+*.gz
