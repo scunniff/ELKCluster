@@ -1,14 +1,14 @@
 Vagrant ELK (Elasticsearch + Logstash + Kibana) Cluster - Modification of bhaskarvk's cluster
 =============================
 
-**For ES 2.0 and above**. For ES 1.x see branch es1.x.
+**For ES 2.0 and above**.
 
 Create an ELK Stack with a single bash command in Vmware, Parallels, or VirtualBox :
 
 ```bash
-vagrant up --no-parallel --provider <virtualbox|parallels|vmware_fusion|vmware_workstation>
+vagrant up
 ```
-<div style='color:red'>**Read Pre Requisites below.**</div>**I would also highly recommend that you read this file in its entirety at least once.**<br/><br/>
+<div style='color:red'>**Read Pre Requisites below.**</div>**Read this file in its entirety at least once.**<br/><br/>
 
 ---
 
@@ -17,11 +17,12 @@ vagrant up --no-parallel --provider <virtualbox|parallels|vmware_fusion|vmware_w
 
 | Software              | Version     | Description                        |
 | --------------------------------- | ----------- | ----------------------------------------- |
-| CentOS|7.1| Guest OS <br/> VMWare and Virtual box :[chef/centos-7.1](https://atlas.hashicorp.com/chef/boxes/centos-7.1) <br/> & parallels : [parallels/centos-7.1](https://atlas.hashicorp.com/parallels/boxes/centos-7.1) |
-| Java (oracle)              | 1.8.0_65    |    [Download JDK](http://www.oracle.com/technetwork/java/javase/downloads/) |
-| ElasticSearch                     | 2.1.0       | [Reference Guide](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html) / [Definitive Guide](https://www.elastic.co/guide/en/elasticsearch/guide/current/index.html) |
-| Kibana | 4.3.0 | [Reference Guide](https://www.elastic.co/guide/en/kibana/current/index.html)|
-| LogStash | 2.1.0 | [Reference Guide](https://www.elastic.co/guide/en/logstash/current/index.html)|
+| CentOS|7.1| Guest OS <br/> VMWare and Virtual box :[bento/centos-7.1](https://atlas.hashicorp.com/bento/boxes/centos-7.1 <br/> & parallels : [parallels/centos-7.1](https://atlas.hashicorp.com/parallels/boxes/centos-7.1) |
+| Java (oracle)              | 1.8.0_73    |    [Download JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) |
+| ElasticSearch                     | 2.2.0       | [Reference Guide](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html) / [Definitive Guide](https://www.elastic.co/guide/en/elasticsearch/guide/current/index.html) |
+| Kibana | 4.4.1 | [Reference Guide](https://www.elastic.co/guide/en/kibana/current/index.html)|
+| LogStash | 2.2.1 | [Reference Guide](https://www.elastic.co/guide/en/logstash/current/index.html)|
+| Filebeat | 1.1.1 | |
 
 **Cluster Details**
 
@@ -45,8 +46,8 @@ _Cluster Nodes :_
 | VM Name| Node Name|Default IP| VM Port <=> Host Port|Description|
 | -------|----------|----------|----------------------|-----------|
 |vm1|thor|10.1.1.11|9200<=>9201<br/>9300<=>9301|1<sup>st</sup> Elasticsearch Node|
-|vm2|zeus|10.1.1.12|9200<=>9202<br/>9300<=>9302|2<sup>nd</sup> Elasticsearch Node|
-|vm3|isis|10.1.1.13|9200<=>9203<br/>9300<=>9303|3<sup>rd</sup> Elasticsearch Node|
+|vm2|zeus|10.1.1.12|9200<=>9202<br/>9300<=>9302|2<sup>nd</sup> Elasticsearch Node<br/>(_Not started by default_)|
+|vm3|isis|10.1.1.13|9200<=>9203<br/>9300<=>9303|3<sup>rd</sup> Elasticsearch Node<br/>(_Not started by default_)|
 |vm4|baal|10.1.1.14|9200<=>9204<br/>9300<=>9304|4<sup>th</sup> Elasticsearch Node<br/>(_Not started by default_)|
 |vm5|shifu|10.1.1.15|9200<=>9205<br/>9300<=>9305|5<sup>th</sup> Elasticsearch Node<br/>(_Not started by default_)|
 |vm250|kibana|10.1.1.250|**9200<=>9200<br/>9300<=>9300<br/>5601<=>5601**|Kibana + ES Client Node|
@@ -93,10 +94,10 @@ _Cluster Nodes :_
 
 This needs to be done just once.
 
-*	Download JDK 8u65 64bit RPM from [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/) 
-*	Download elasticsearch-2.1.0.tar.gz from [elastic](https://www.elastic.co/downloads/elasticsearch)
-*	Download kibana-4.3.0-linux-x64.tar.gz from [elastic](https://www.elastic.co/downloads/kibana)
-*	Download logstash-2.1.0.tar.gz from [elastic](https://www.elastic.co/downloads/logstash)
+*	Download JDK 8u73 64bit RPM from [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/) 
+*	Download elasticsearch-2.2.0.tar.gz from [elastic](https://www.elastic.co/downloads/elasticsearch)
+*	Download kibana-4.4.1-linux-x64.tar.gz from [elastic](https://www.elastic.co/downloads/kibana)
+*	Download logstash-2.2.1.tar.gz from [elastic](https://www.elastic.co/downloads/logstash)
 *	Place all the above files at the root of this repo.
 
 If you need to upgrade any of the above, download respective version and change the version number in `lib/upgrade-es.sh` OR  `lib/upgrade-kibana.sh` Or  `lib/upgrade-logstash.sh` accordingly and re-run provisioning.
@@ -111,12 +112,10 @@ Simply go in the cloned directory (vagrant-elk-cluster by default).
 Execute this command :
 
 ```bash
-vagrant up --no-parallel --provider <virtualbox|parallels|vmware_fusion|vmware_workstation>
+vagrant up
 ```
 
- I recommend starting in `no-parallel` mode as it is the safest, but you can also try with removing this argument.
-
-By default 3 ElasticSearch Nodes are started: vm1, vm2, and vm3. One kibana (vm250) and one logstash (vm251) node are also started.
+By default 1 ElasticSearch Nodes are started: vm1. One kibana (vm250) and one logstash (vm251) node are also started.
 You can start a maximum of 5 Elasticsearch nodes. If you want you can increase this limit by changing the code but it is pointless to have a bigger cluster for dev|qa purposes.
 
 You can change the cluster size with the `CLUSTER_COUNT` variable (min 1 and max 5):
@@ -213,7 +212,7 @@ This will stop the `vm2` instance.
 vagrant destroy
 rm -rf .vagrant conf/*.yml conf/*.conf logs/* data/* 
 ```
-
+NOTE: Do NOT delete the *.yml files if you do not want to use the default Filebeat settings.
 This will stop the whole cluster. If you want to only stop one VM, you can use:
 
 ```bash
@@ -282,9 +281,14 @@ echo "<133>$0[$$]: Second Test syslog message from Netcat" | nc -4 localhost 551
 
 Next go to Kibana Dashboard at [http://localhost:5601/](http://localhost:5601/). Kibana will auto discover the logstash index and ask you some basic question, just select the default, and then go to the discover tab. You should see the two sample messages.
 
----
-
+If the index is screwy (elasticsearch plugin failing for no reason, HTTP is fine) and you're seeing the indexes when you run
+```bash
+curl 'localhost:9200/_cat/indices?v'
+```
+Delete the .kibana index and any logstash entries using
+```bash
+curl -XDELETE http://localhost:9200/*
+```
 **TODO**
-
-See issues.
-
+Filebeat not working currently, there is a network error when initializing.
+Twitter may also not be working.
