@@ -17,7 +17,7 @@ vagrant up
 
 | Software              | Version     | Description                        |
 | --------------------------------- | ----------- | ----------------------------------------- |
-| CentOS|7.1| Guest OS <br/> VMWare and Virtual box :[bento/centos-7.1](https://atlas.hashicorp.com/bento/boxes/centos-7.1 <br/> & parallels : [parallels/centos-7.1](https://atlas.hashicorp.com/parallels/boxes/centos-7.1) |
+| CentOS|7.1| Guest OS <br/> VMWare and Virtual box :[bento/centos-7.1](https://atlas.hashicorp.com/bento/boxes/centos-7.1) <br/> & parallels : [parallels/centos-7.1](https://atlas.hashicorp.com/parallels/boxes/centos-7.1) |
 | Java (oracle)              | 1.8.0_73    |    [Download JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) |
 | ElasticSearch                     | 2.2.0       | [Reference Guide](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html) / [Definitive Guide](https://www.elastic.co/guide/en/elasticsearch/guide/current/index.html) |
 | Kibana | 4.4.1 | [Reference Guide](https://www.elastic.co/guide/en/kibana/current/index.html)|
