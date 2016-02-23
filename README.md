@@ -1,4 +1,4 @@
-Vagrant ELK (Elasticsearch + Logstash + Kibana) Cluster - Modification of bhaskarvk's cluster
+Vagrant ELK (Elasticsearch + Logstash + Kibana) Cluster - Modification of bhaskarvk's cluster that includes Filebeat and Twitter
 =============================
 
 **For ES 2.0 and above**.
@@ -290,5 +290,4 @@ Delete the .kibana index and any logstash entries using
 curl -XDELETE http://localhost:9200/*
 ```
 **TODO**
-Filebeat not working currently, there is a network error when initializing.
-Twitter may also not be working.
+Have Filebeat run using screen.
