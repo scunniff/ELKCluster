@@ -8,4 +8,4 @@ filebeat:
 output:
   logstash:
     enabled: true
-    hosts: ["http://localhost:5043"]
+    hosts: ["localhost:5043"]

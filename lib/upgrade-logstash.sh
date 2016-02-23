@@ -41,6 +41,7 @@ mv $FILEBEAT_VERSION filebeat
 cp /vagrant/conf/filebeat.yml filebeat/filebeat.yml
 
 ${LS_PLUGIN_INSTALL_CMD} logstash-input-beats
+logstash/bin/plugin update logstash-input-beats
 
 chown -R vagrant: logstash
 
@@ -50,6 +51,3 @@ firewall-cmd --zone=public --add-port=5043/tcp --permanent
 firewall-cmd --zone=public --add-port=5514/tcp --permanent
 firewall-cmd --zone=public --add-port=5514/udp --permanent
 sudo systemctl restart firewalld.service
-
-cd filebeat
-sudo ./filebeat -e -c filebeat.yml -d "publish"
