@@ -289,5 +289,3 @@ Delete the .kibana index and any logstash entries using
 ```bash
 curl -XDELETE http://localhost:9200/*
 ```
-**TODO**
-Have Filebeat run using screen.
